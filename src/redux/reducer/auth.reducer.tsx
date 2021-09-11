@@ -32,6 +32,36 @@ const auth = (state = initialState, action: {type: any; payload: any}) => {
         errMsg: action.payload,
       };
     }
+    case 'AUTH_FORGOT': {
+      return {
+        ...state,
+        succMsg: action.payload,
+      };
+    }
+    case 'AUTH_FORGOT_FAILED': {
+      return {
+        ...state,
+        errMsg: action.payload,
+      };
+    }
+    case 'AUTH_FORGOT_UPDATE': {
+      return {
+        ...state,
+        succMsg: action.payload,
+      };
+    }
+    case 'AUTH_FORGOT_UPDATE_FAILED': {
+      return {
+        ...state,
+        errMsg: action.payload,
+      };
+    }
+    case 'AUTH_GET': {
+      return {
+        ...state,
+        data: action.payload,
+      };
+    }
     case 'AUTH_LOGOUT': {
       return {
         ...state,
@@ -43,7 +73,6 @@ const auth = (state = initialState, action: {type: any; payload: any}) => {
     case 'AUTH_RESET': {
       return {
         ...state,
-        token: null,
         errMsg: '',
         sccMsg: '',
       };

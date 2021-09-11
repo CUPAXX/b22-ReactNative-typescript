@@ -1,9 +1,13 @@
 import * as React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {connect} from 'react-redux';
+import {authLogout} from '../redux/actions/auth.actions';
 
-export interface HomeProps {}
+export interface HomeProps {
+  authLogout: any;
+}
 
-export default class HomeComponent extends React.Component<HomeProps, any> {
+class HomeComponent extends React.Component<HomeProps, any> {
   constructor(props: HomeProps) {
     super(props);
   }
@@ -13,13 +17,23 @@ export default class HomeComponent extends React.Component<HomeProps, any> {
       <View style={styles.parent}>
         <Text style={styles.textWelcome}>Welcome Back</Text>
         <Text style={styles.textWelcome}>Admin</Text>
-        <TouchableOpacity style={styles.parentBtn}>
+        <TouchableOpacity
+          onPress={() => this.props.authLogout()}
+          style={styles.parentBtn}>
           <Text style={styles.textBtn}>Logout</Text>
         </TouchableOpacity>
       </View>
     );
   }
 }
+
+const mapStateToProps = (state: {auth: any}) => ({
+  auth: state.auth,
+});
+
+const mapDispatchToProps = {authLogout};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeComponent);
 
 const styles = StyleSheet.create({
   parent: {

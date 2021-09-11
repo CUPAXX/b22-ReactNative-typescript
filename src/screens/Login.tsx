@@ -8,6 +8,8 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
+import {authLogin} from '../redux/actions/auth.actions';
+import {connect} from 'react-redux';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {showMessage} from 'react-native-flash-message';
@@ -15,12 +17,37 @@ const bgLogin = require('../assets/bgLogin.png');
 
 export interface LoginProps {
   navigation: any;
+  authLogin: any;
+  auth: any;
 }
 
-export default class LoginComponent extends React.Component<LoginProps, any> {
+class LoginComponent extends React.Component<LoginProps, any> {
   constructor(props: LoginProps) {
     super(props);
   }
+
+  onLogin = (values: {email: any; password: any}) => {
+    const {email, password} = values;
+    console.log(this.props);
+    this.props.authLogin(email, password).then(() => {
+      if (this.props.auth.errMsg === '') {
+        showMessage({
+          message: 'Login Success',
+          type: 'default',
+          backgroundColor: '#01937C',
+          color: 'white',
+        });
+        return this.props.navigation.navigate('Home');
+      } else {
+        showMessage({
+          message: `${this.props.auth.errMsg}`,
+          type: 'default',
+          backgroundColor: '#D54C4C',
+          color: 'white',
+        });
+      }
+    });
+  };
 
   public render() {
     return (
@@ -34,7 +61,7 @@ export default class LoginComponent extends React.Component<LoginProps, any> {
               email: '',
               password: '',
             }}
-            onSubmit={values => console.log(values)}
+            onSubmit={values => this.onLogin(values)}
             validationSchema={yup.object().shape({
               email: yup.string().email('Your email is not valid').required(),
               password: yup
@@ -107,6 +134,13 @@ export default class LoginComponent extends React.Component<LoginProps, any> {
     );
   }
 }
+
+const mapStateToProps = (state: {auth: any}) => ({
+  auth: state.auth,
+});
+
+const mapDispatchToProps = {authLogin};
+export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent);
 
 const styles = StyleSheet.create({
   parent: {

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {
   View,
@@ -10,20 +11,43 @@ import {
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
+import {connect} from 'react-redux';
+import {authRegister} from '../redux/actions/auth.actions';
 import {showMessage} from 'react-native-flash-message';
 const bgRegis = require('../assets/bgRegis.png');
 
 export interface RegisterProps {
   navigation: any;
+  auth: any;
+  authRegister: any;
 }
 
-export default class RegisterComponent extends React.Component<
-  RegisterProps,
-  any
-> {
+class RegisterComponent extends React.Component<RegisterProps, any> {
   constructor(props: RegisterProps) {
     super(props);
   }
+
+  onRegister = (values: {email: any; password: any; name: any}) => {
+    const {name, email, password} = values;
+    this.props.authRegister(name, email, password).then(() => {
+      if (this.props.auth.errMsg === '') {
+        showMessage({
+          message: 'Register Success',
+          type: 'default',
+          backgroundColor: '#01937C',
+          color: 'white',
+        });
+        return this.props.navigation.navigate('Login');
+      } else {
+        showMessage({
+          message: `${this.props.auth.errMsg}`,
+          type: 'default',
+          backgroundColor: '#D54C4C',
+          color: 'white',
+        });
+      }
+    });
+  };
 
   public render() {
     return (
@@ -38,7 +62,7 @@ export default class RegisterComponent extends React.Component<
               password: '',
               name: '',
             }}
-            onSubmit={values => console.log(values)}
+            onSubmit={values => this.onRegister(values)}
             validationSchema={yup.object().shape({
               email: yup
                 .string()
@@ -123,6 +147,14 @@ export default class RegisterComponent extends React.Component<
     );
   }
 }
+
+const mapStateToProps = (state: {auth: any}) => ({
+  auth: state.auth,
+});
+
+const mapDispatchToProps = {authRegister};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterComponent);
 
 const styles = StyleSheet.create({
   parent: {

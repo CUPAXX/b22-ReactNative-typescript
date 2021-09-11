@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {
   View,
@@ -10,24 +11,42 @@ import {
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
+import {connect} from 'react-redux';
+import {authForgotUpdate} from '../redux/actions/auth.actions';
 import {showMessage} from 'react-native-flash-message';
 const bgForgotUpdate = require('../assets/bgForgotUpdate.png');
 
 export interface ForgotUpdateProps {
   navigation: any;
+  auth: any;
+  authForgotUpdate: any;
 }
 
-export default class ForgotUpdateComponent extends React.Component<
-  ForgotUpdateProps,
-  any
-> {
+class ForgotUpdateComponent extends React.Component<ForgotUpdateProps, any> {
   constructor(props: ForgotUpdateProps) {
     super(props);
   }
 
   onSub = (values: {email: string; password: string; code: string}) => {
-    console.log(values);
-    this.props.navigation.navigate('Home');
+    const {password, email, code} = values;
+    this.props.authForgotUpdate(password, email, code).then(() => {
+      if (this.props.auth.errMsg === '') {
+        showMessage({
+          message: 'Update password success',
+          type: 'default',
+          backgroundColor: '#01937C',
+          color: 'white',
+        });
+        return this.props.navigation.navigate('Login');
+      } else {
+        showMessage({
+          message: `${this.props.auth.errMsg}`,
+          type: 'default',
+          backgroundColor: '#D54C4C',
+          color: 'white',
+        });
+      }
+    });
   };
 
   public render() {
@@ -122,6 +141,17 @@ export default class ForgotUpdateComponent extends React.Component<
     );
   }
 }
+
+const mapStateToProps = (state: {auth: any}) => ({
+  auth: state.auth,
+});
+
+const mapDispatchToProps = {authForgotUpdate};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ForgotUpdateComponent);
 
 const styles = StyleSheet.create({
   parent: {

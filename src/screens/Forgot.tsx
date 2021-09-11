@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {
   View,
@@ -10,21 +11,42 @@ import {
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
+import {connect} from 'react-redux';
+import {authForgot} from '../redux/actions/auth.actions';
 import {showMessage} from 'react-native-flash-message';
 const bgForgot = require('../assets/bgForgot.png');
 
 export interface ForgotProps {
   navigation: any;
+  auth: any;
+  authForgot: any;
 }
 
-export default class ForgotComponent extends React.Component<ForgotProps, any> {
+class ForgotComponent extends React.Component<ForgotProps, any> {
   constructor(props: ForgotProps) {
     super(props);
   }
 
   onSub = (values: {email: string}) => {
-    console.log(values);
-    this.props.navigation.navigate('ForgotUpdate');
+    const {email} = values;
+    this.props.authForgot(email).then(() => {
+      if (this.props.auth.errMsg === '') {
+        showMessage({
+          message: 'Verification Code Send Success',
+          type: 'default',
+          backgroundColor: '#01937C',
+          color: 'white',
+        });
+        return this.props.navigation.navigate('ForgotUpdate');
+      } else {
+        showMessage({
+          message: `${this.props.auth.errMsg}`,
+          type: 'default',
+          backgroundColor: '#D54C4C',
+          color: 'white',
+        });
+      }
+    });
   };
 
   public render() {
@@ -86,6 +108,14 @@ export default class ForgotComponent extends React.Component<ForgotProps, any> {
     );
   }
 }
+
+const mapStateToProps = (state: {auth: any}) => ({
+  auth: state.auth,
+});
+
+const mapDispatchToProps = {authForgot};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotComponent);
 
 const styles = StyleSheet.create({
   parent: {
