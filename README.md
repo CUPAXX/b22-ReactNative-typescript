@@ -24,9 +24,9 @@
 
 <br> </br>
 # Showcase
-Welcome Screen | Home Screen | Detail Product Screen | Payment Screen
+Welcome Screen | Login Screen | Register Product Screen | Forgot Password Screen
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-![Welcome Screen](https://github.com/CUPAXX/b22-react-native/blob/master/screenshot/welcome.png?raw=true)  |  ![Home Screen](https://github.com/CUPAXX/b22-react-native/blob/master/screenshot/home.png?raw=true) |  ![Product Detail](https://github.com/CUPAXX/b22-react-native/blob/master/screenshot/detail.png?raw=true) |  ![Payment Screen](https://github.com/CUPAXX/b22-react-native/blob/master/screenshot/payment.png?raw=true)
+![Welcome Screen](https://github.com/CUPAXX/b22-ReactNative-typescript/blob/master/screenshot/welcome.png?raw=true)  |  ![Login](https://github.com/CUPAXX/b22-ReactNative-typescript/blob/master/screenshot/login.png?raw=true) |  ![Register](https://github.com/CUPAXX/b22-ReactNative-typescript/blob/master/screenshot/register.png?raw=true) |  ![Forgot PAssword Screen](https://github.com/CUPAXX/b22-ReactNative-typescript/blob/master/screenshot/forgot.png?raw=true)
 
 <br> </br>
 # Author
