@@ -30,4 +30,4 @@ Welcome Screen | Login Screen | Register Product Screen | Forgot Password Screen
 
 <br> </br>
 # Author
-<a href="https://www.instagram.com/xfiqryx/">CUPAXXHD</a>
+<a href="https://www.instagram.com/xfiqryx/">M Fiqry Arahmansyah</a>
